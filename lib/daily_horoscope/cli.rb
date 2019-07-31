@@ -1,9 +1,11 @@
 class DailyHoroscope::CLI
 
     def call
+        # DailyHoroscope::Scraper.new.get_horoscopes
         puts "\nWelcome! Read Your Horoscope for #{Time.new.strftime("%A, %B %d")}."
         list_signs
         menu
+        goodbye
     end
 
     def list_signs
@@ -25,7 +27,7 @@ class DailyHoroscope::CLI
     end
 
     def menu
-        puts "\nMain Menu Commands:"
+        puts "\n*** Main Menu Commands ***"
         puts <<-DOC.gsub /^\s+/, ""
             - Enter your zodiac sign's number to read today's horoscope.
             - Type 'list' to view all zodiac signs.
@@ -35,22 +37,42 @@ class DailyHoroscope::CLI
 
         input = gets.strip.downcase
 
-        while input != "exit"
-            case input 
-            when "1"
-                puts "\nAries"
-                read_more
-            when "2"
-                puts "Taurus"
-                read_more
-            when "list"
-                list_signs
-            else
-                puts "\nNot a valid input."
+       
+            while input != "exit"
+                case input 
+                when "1"
+                    puts "\nAries"
+                    read_more
+                when "2"
+                    puts "Taurus"
+                    read_more
+                when "list"
+                    list_signs
+                    menu
+                else
+                    puts "\nHmm, that's not a valid input."
+                end
             end
+        
+    end
+
+    def read_more
+        puts "\nWould you like to read more? Type 'yes' to continue or 'no' to go back to the main menu."
+        input = gets.strip.downcase
+
+        if input == "yes"
+            puts "more"
+            menu
+        elsif input == "no"
+            menu
+        else 
+            puts "\nHmm, I'm not sure what you want."
+            read_more
         end
     end
 
-    def
+    def goodbye
+        puts "See ya'! Come back tomorrow for your new horoscope! (:"
+    end
 
 end
