@@ -9,6 +9,7 @@ class DailyHoroscope::CLI
     end
 
     def list_signs
+        #ZodiacSign.all.each.with_index {|sign| }
         puts "\n"
         puts <<-DOC.gsub /^\s+/, ""
             1. Aries (Mar 21 - Apr 19)
