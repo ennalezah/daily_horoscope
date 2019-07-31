@@ -1,10 +1,13 @@
 class DailyHoroscope::Scraper 
-    BASE_URL = "https://www.horoscope.com/us/index.aspx"
+    BASE_URL = "https://www.horoscope.com"
 
     def self.scrape_index
         #returns container of zodiac information from index page
-        index = Nokogiri::HTML(open(BASE_URL))
-        index.css("section.choose-zodiac div.grid.grid-6")
+
+        doc = Nokogiri::HTML(open("#{BASE_URL}/us/index.aspx"))
+        index = doc.css("section.choose-zodiac div.grid.grid-6")
+
+        index.map {|sign|}
 
         # :name => sign.css("h3").text.strip,
         # :birthdates => sign.css("p").text.strip
@@ -37,7 +40,7 @@ class DailyHoroscope::Scraper
         h = health.css("div.main-horoscope")
 
         h.map do |description|
-            description.css("p").first.text
+            description.css("p").first.text.split(/\s-\s/)[1]
         end
     end
 

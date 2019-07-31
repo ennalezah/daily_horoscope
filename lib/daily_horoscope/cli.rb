@@ -9,10 +9,10 @@ class DailyHoroscope::CLI
     end
 
     def list_signs
-        #ZodiacSign.all.each.with_index {|sign| }
+        #ZodiacSign.all.each.with_index {|sign, i| puts "#{i + 1}. #{sign.name}, #{sign.birthdates}"}
         puts "\n"
         puts <<-DOC.gsub /^\s+/, ""
-            1. Aries (Mar 21 - Apr 19)
+            1. Aries, Mar 21 - Apr 19
             2. Taurus (Apr 20 - May 20)
             3. Gemini (May 21 - Jun 20)
             4. Cancer (Jun 21 - Jul 22)
