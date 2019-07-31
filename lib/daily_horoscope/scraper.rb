@@ -2,21 +2,22 @@ class DailyHoroscope::Scraper
     BASE_URL = "https://www.horoscope.com"
 
     def self.scrape_index
-        #returns container of zodiac information from index page
+        # returns container of zodiac information from index page
 
         doc = Nokogiri::HTML(open("#{BASE_URL}/us/index.aspx"))
         index = doc.css("section.choose-zodiac div.grid.grid-6")
 
-        index.map {|sign|}
-
-        # :name => sign.css("h3").text.strip,
-        # :birthdates => sign.css("p").text.strip
-        # :profile_url => sign.css("a").first["href"]
+        index.map do |sign|
+            {
+                :name => sign.css("h3").text.strip,
+                :birthdates => sign.css("p").text.strip
+                :profile_url => sign.css("a").first["href"]
+            }
     end
 
     def self.scrape_profile(profile_url)
         #returns container of horoscope and career/health urls from profile page
-        profile = Nokogiri::HTML(open(profile_url)
+        doc = Nokogiri::HTML(open(profile_url)
         profile.css("div.main-horoscope")    
 
         # horoscope: profile.css("p").text
@@ -42,9 +43,5 @@ class DailyHoroscope::Scraper
         h.map do |description|
             description.css("p").first.text.split(/\s-\s/)[1]
         end
-    end
-
-    def create_zodiac_signs
-        scrape_index.each {|sign| DailyHoroscope::ZodiacSign.create_from_index(sign)}
     end
 end

@@ -7,18 +7,16 @@ class ZodiacSign
     end
 
     def initialize(name:, birthdates:, profile_url:)
-        @name = name
-        @birthdates = birthdates
-        @profile_url = profile_url
+        # @name = name
+        # @birthdates = birthdates
+        # @profile_url = profile_url
+        sign_attributes.each {|key, value| self.send(("#{key}="), value)}
         self.class.all << self
     end
 
-    def self.create_from_index(sign) 
-        self.new(
-            name: sign.css("h3").text.strip,
-            birthdates: sign.css("p").text.strip,
-            profile_url: "https://www.horoscope.com#{sign.css("a").first["href"]}"
-        )
+    def self.create_from_index 
+        sign_attributes = Scraper.scrape_index
+        self.new(sign_attributes)
     end
 
     def horoscope(profile_url)
