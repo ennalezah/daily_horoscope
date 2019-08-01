@@ -6,9 +6,8 @@ class ZodiacSign
         @@all
     end
     
-    def self.create_from_index 
-        sign_attributes = Scraper.scrape_index
-        self.new(sign_attributes)
+    def self.create_from_index(sign_attr) 
+        self.new(sign_attr)
     end
 
     def initialize(name:, birthdates:, profile_url:)

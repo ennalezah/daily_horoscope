@@ -13,22 +13,24 @@ class DailyHoroscope::Scraper
                 :birthdates => sign.css("p").text.strip
                 :profile_url => sign.css("a").first["href"]
             }
+        end
+        binding.pry
     end
 
-    def self.create_zodiac_signs
-        self.scrape_index
+    def self.make_zodiac_signs
+        self.scrape_index.each {|sign_attr| ZodiacSign.create_from_index(sign_attr)}
     end
 
     def self.scrape_profile(profile_url)
         #returns container of horoscope and career/health urls from profile page
         doc = Nokogiri::HTML(open("#{BASE_URL}#{profile_url}"))
-        horoscopes = doc.css("div.main-horoscope")  
+        profile = doc.css("div.main-horoscope")  
         
-        horoscopes.map do |info|
+        profile.map do |info|
             {                
-                horoscope: profile.css("p").text
-                career_url: profile.css("div.more-horoscopes a")[2]['href']
-                health_url: profile.css("div.more-horoscopes a")[4]['href']
+                horoscope: info.css("p").text
+                career_url: info.css("div.more-horoscopes a")[2]['href']
+                health_url: info.css("div.more-horoscopes a")[4]['href']
             }
         end
     end
