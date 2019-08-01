@@ -15,6 +15,10 @@ class DailyHoroscope::Scraper
             }
     end
 
+    def self.create_zodiac_signs
+        self.scrape_index
+    end
+
     def self.scrape_profile(profile_url)
         #returns container of horoscope and career/health urls from profile page
         doc = Nokogiri::HTML(open("#{BASE_URL}#{profile_url}"))
@@ -27,25 +31,15 @@ class DailyHoroscope::Scraper
                 health_url: profile.css("div.more-horoscopes a")[4]['href']
             }
         end
-
-        
     end
 
-    def get_career(career_url)
+    def self.get_career_text(career_url)
         doc = Nokogiri::HTML(open("#{BASE_URL}#{career_url}"))
-        career = doc.css("div.main-horoscope")
-
-        c.map do |description|
-            description.css("p").first.text.split(/\s-\s/)[1]
-        end
+        doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
     end
 
-    def get_health(health_url)
+    def self.get_health_text(health_url)
         doc = Nokogiri::HTML("#{BASE_URL}#{health_url}"))
-        health = doc.css("div.main-horoscope")
-
-        h.map do |description|
-            description.css("p").first.text.split(/\s-\s/)[1]
-        end
+        doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
     end
 end
