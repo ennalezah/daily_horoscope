@@ -8,7 +8,7 @@ class DailyHoroscope::CLI
 
     def list_signs
         puts "\n"
-        DailyHoroscope::ZodiacSign.all.each.with_index {|sign, i| puts "#{i + 1}. #{sign.name}, #{sign.birthdates}"}
+        DailyHoroscope::ZodiacSign.all.each.with_index {|sign, i| puts "#{i + 1}. #{sign.name}, #{sign.birthdates} -- #{sign.career_url}"}
     end
 
     def menu
@@ -22,18 +22,17 @@ class DailyHoroscope::CLI
         puts "\nPlease enter a command:"
         input = gets.strip
 
-        if 1..DailyHoroscope::ZodiacSign.all.length.incude?(input.to_i)
+        if (1..DailyHoroscope::ZodiacSign.all.length).include?(input.to_i)
             sign = DailyHoroscope::ZodiacSign.find(input.to_i)
-            puts "#{sign.name} - #{sign.horoscope}"
+            puts "\nHello #{sign.name}! #{sign.career_url}"
         elsif input.downcase == "list"
             list_signs
-            start
+            menu
         elsif input.downcase == "exit"
             goodbye
-            exit
         else
             puts "Hmm, that's not a valid input."
-            start
+            menu
         end        
     end
 
@@ -53,7 +52,7 @@ class DailyHoroscope::CLI
     end
 
     def goodbye
-        puts "See ya'! Come back tomorrow for your new horoscope! (:"
+        puts "\nSee ya' tomorrow for your new horoscope! (:"
     end
 
 end

@@ -1,4 +1,5 @@
 # Responsible for scraping and parsing info, then "sending" to Zodiac Sign class
+require 'pry'
 
 class DailyHoroscope::Scraper 
     BASE_URL = "https://www.horoscope.com"
@@ -28,8 +29,8 @@ class DailyHoroscope::Scraper
         # Hash keys are current day's horoscope reading, as well as career & health link
 
         doc = Nokogiri::HTML(open("#{BASE_URL}#{profile_url}"))
-        profile = doc.css("div.main-horoscope")  
-        
+        profile = doc.css("div.main-horoscope")        
+
         profile.map do |info|
             {                
                 horoscope: info.css("p").text.split(/\s-\s/)[1],
@@ -39,19 +40,19 @@ class DailyHoroscope::Scraper
         end
     end
 
-    def import_profile
-        scrape_profile.each{|more_info| DailyHoroscope::ZodiacSign.add_attributes(more_info)}
-    end
+    # def import_profile
+    #     scrape_profile.each{|more_info| DailyHoroscope::ZodiacSign.add_attributes(more_info)}
+    # end
 
-    def get_career_text(career_url)
-        # Returns current day's career horoscope for specific sign
-        doc = Nokogiri::HTML(open("#{BASE_URL}#{career_url}"))
-        doc.css("div.main-horoscope p").text.split(/\s-\s/)[1]
-    end
+    # def get_career_text(career_url)
+    #     # Returns current day's career horoscope for specific sign
+    #     doc = Nokogiri::HTML(open("#{BASE_URL}#{career_url}"))
+    #     doc.css("div.main-horoscope p").text.split(/\s-\s/)[1]
+    # end
 
-    def get_health_text(health_url)
-        # Returns current day's health horoscope for specific sign
-        doc = Nokogiri::HTML(open("#{BASE_URL}#{health_url}"))
-        doc.css("div.main-horoscope p").text.split(/\s-\s/)[1]
-    end
+    # def get_health_text(health_url)
+    #     # Returns current day's health horoscope for specific sign
+    #     doc = Nokogiri::HTML(open("#{BASE_URL}#{health_url}"))
+    #     doc.css("div.main-horoscope p").text.split(/\s-\s/)[1]
+    # end
 end
