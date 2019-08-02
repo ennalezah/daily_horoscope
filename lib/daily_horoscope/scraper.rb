@@ -20,8 +20,8 @@ class DailyHoroscope::Scraper
         end
     end
     
-    def import_zodiac_signs
-        scrape_index.each {|sign_attr| DailyHoroscope::ZodiacSign.new(sign_attr)}
+    def import
+        self.scrape_index.each {|sign_attr| DailyHoroscope::ZodiacSign.create_from_index(sign_attr)}
     end
 
     def scrape_profile(profile_url)
@@ -40,14 +40,10 @@ class DailyHoroscope::Scraper
         end
     end
 
-    # def import_profile
-    #     scrape_profile.each{|more_info| DailyHoroscope::ZodiacSign.add_attributes(more_info)}
-    # end
-
     # def get_career_text(career_url)
-    #     # Returns current day's career horoscope for specific sign
-    #     doc = Nokogiri::HTML(open("#{BASE_URL}#{career_url}"))
-    #     doc.css("div.main-horoscope p").text.split(/\s-\s/)[1]
+      # Returns current day's career horoscope for specific sign
+      # doc = Nokogiri::HTML(open("#{BASE_URL}#{career_url}"))
+      # doc.css("div.main-horoscope p").text.split(/\s-\s/)[1]
     # end
 
     # def get_health_text(health_url)
