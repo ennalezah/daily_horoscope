@@ -1,4 +1,4 @@
-# Responsible for creating signs and getting/setting their attributes from scraped data
+   # Responsible for creating signs and getting/setting their attributes from scraped data
 require 'pry'
 class DailyHoroscope::ZodiacSign
    attr_accessor :name, :birthdates, :profile_url, :career_url, :health_url, :current, :career, :health, :horoscopes
@@ -17,18 +17,20 @@ class DailyHoroscope::ZodiacSign
       self.class.all << self
    end
 
-   def self.create_from_index(sign_attr)
-      sign = self.new(sign_attr)
+   def self.create_from_index(sign_attributes)
+      self.new(sign_attributes)
    end
 
-   def self.add_profile(profile_url)
-      zodiac = self.all.find {|sign| sign.profile_url == profile_url}
-      profile = DailyHoroscope::Scraper.scrape_profile(profile_url)
-      profile.each {|key, value| self.send("#{key}=", value)}
+   def self.find_by_profile_url(profile_url)
+      sign = self.all.find {|sign| sign.profile_url == profile_url}
    end
 
-   def self.find(int)
-      self.all[int-1] 
+   def add_attributes(attributes)
+      attributes.map {|k, v| self.send(("#{k}="), v)}
+   end
+
+   def self.find_by_input(input)
+      self.all[input.to_i - 1] 
    end
 
    # def career_horoscope(career_url)

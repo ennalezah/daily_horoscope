@@ -2,17 +2,26 @@ require 'pry'
 
 class DailyHoroscope::CLI
 	def call
-		DailyHoroscope::Scraper.new.import
-		DailyHoroscope::ZodiacSign.all
-		binding.pry
+		get_zodiac_signs
 		puts "\n*** Welcome! Read Your Horoscope for #{Time.new.strftime("%A, %B %d")} ***"    
 		list_signs
 		menu
-   end
+	end
+
+	def get_zodiac_signs
+		DailyHoroscope::Scraper.new.import
+	end
+
+	# def display_current_horoscope 
+	# 	DailyHoroscope::ZodiacSign.all.each do |sign|
+	# 		attributes = DailyHoroscope::Scraper.scrape_profile(sign.profile_url)
+	# 		sign.add_attributes(attributes)
+	# 	end
+	# end
 
    def list_signs
 		puts "\n"
-		DailyHoroscope::ZodiacSign.all.each.with_index(1) {|sign, i| puts "#{i}. #{sign.name}, #{sign.birthdates} -- #{sign.career_url}"}
+		DailyHoroscope::ZodiacSign.all.each.with_index(1) {|sign, i| puts "#{i}. #{sign.name}, #{sign.birthdates}"}
    end
 
    def menu
@@ -27,7 +36,7 @@ class DailyHoroscope::CLI
 		input = gets.strip
 
 		if (1..DailyHoroscope::ZodiacSign.all.length).include?(input.to_i)
-			sign = DailyHoroscope::ZodiacSign.find(input.to_i)
+			sign = DailyHoroscope::ZodiacSign.find_by_input(input)
 			puts "\nHello #{sign.name}! #{sign.current}"
 		elsif input.downcase == "list"
 			list_signs
@@ -56,6 +65,6 @@ class DailyHoroscope::CLI
    end
 
    def goodbye
-		puts "\nSee ya' tomorrow for your new horoscope! (:"
+		puts "\nCome back tomorrow for your new horoscope! Byeee! (:"
    end
 end

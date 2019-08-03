@@ -10,4 +10,7 @@ class DailyHoroscope::Horoscope
    def initialize
       self.class.all << self
    end
+
+   # def current=(current)
+   # end
 end
