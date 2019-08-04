@@ -1,4 +1,4 @@
-# Responsible for scraping zodiac signs and sending info to 
+# Responsible for scraping zodiac signs and sending info to ZodiacSign
 
 require 'pry'
 

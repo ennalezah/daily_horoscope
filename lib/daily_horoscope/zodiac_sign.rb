@@ -1,5 +1,5 @@
-   # Responsible for creating signs and getting/setting their attributes from scraped data
-require 'pry'
+# Responsible for creating zodiac signs from Scraper and getting sign's horoscopes
+
 class DailyHoroscope::ZodiacSign
    attr_accessor :name, :birthdates, :profile_url
    @@all = []
@@ -33,35 +33,44 @@ class DailyHoroscope::ZodiacSign
    end
 
   def general
-      title = profile_doc.css("div.flex-start h1").text 
+      title = profile_doc.css("div.flex-start h1").text.cyan
       description = profile_doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
-      "\n~~~ #{title} ~~~ \n#{description}"
+      "\n\u{1F52E}  #{title} \n#{description}"
   end
 
    def love
       url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[1]['href']
       doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
 
-      title = doc.css("div.flex-start h1").text.split[0..1].join(' ')
+      title = doc.css("div.flex-start h1").text.split[0..1].join(' ').cyan
       description = doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
-      "\n~~~ #{title} ~~~ \n#{description}"
+      "\n\u{1F496}  #{title} \n#{description}"
    end
 
   def career
       url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[2]['href']
       doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
 
-      title = doc.css("div.flex-start h1").text.split[0..1].join(' ')
+      title = doc.css("div.flex-start h1").text.split[0..1].join(' ').cyan
       description = doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
-      "\n~~~ #{title} ~~~ \n#{description}"
+      "\n\u{1F4BC}  #{title} \n#{description}"
+  end
+
+  def money 
+      url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[3]['href']
+      doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
+
+      title = doc.css("div.flex-start h1").text.split[0..1].join(' ').cyan
+      description = doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
+      "\n\u{1F4B5}  #{title} \n#{description}"
   end
 
   def health
       url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[4]['href']
       doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
 
-      title = doc.css("div.flex-start h1").text
+      title = doc.css("div.flex-start h1").text.cyan
       description = doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
-      "\n~~~ #{title} ~~~ \n#{description}"
+      "\n\u{1F33F}  #{title} \n#{description}"
   end
 end
