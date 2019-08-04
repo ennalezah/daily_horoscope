@@ -1,7 +1,7 @@
    # Responsible for creating signs and getting/setting their attributes from scraped data
 require 'pry'
 class DailyHoroscope::ZodiacSign
-   attr_accessor :name, :birthdates, :profile_url, :career_url, :health_url, :current, :career, :health, :horoscopes
+   attr_accessor :name, :birthdates, :profile_url
    @@all = []
 
    def self.all 
@@ -25,13 +25,36 @@ class DailyHoroscope::ZodiacSign
       sign = self.all.find {|sign| sign.profile_url == profile_url}
    end
 
-   def add_attributes(attributes)
-      attributes.map {|k, v| self.send(("#{k}="), v)}
-   end
-
    def self.find_by_input(input)
       self.all[input.to_i - 1] 
    end
+
+   def profile_doc
+      Nokogiri::HTML(open("#{BASE_URL}#{self.profile_url}"))
+  end
+
+  def general
+      # title = profile_doc.css("div.flex-start h1").text 
+      profile_doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]   \
+      # puts <<-DOC
+      # #{title}
+      # #{description}
+      # DOC
+  end
+
+  def career
+      url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[2]['href']
+      doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
+      doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
+  end
+
+  def health
+      url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[4]['href']
+      doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
+      doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
+  end
+
+
 
    # def career_horoscope(career_url)
       # career_horoscope = DailyHoroscope::Scraper.get_career_text(career_url)  

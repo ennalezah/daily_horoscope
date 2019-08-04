@@ -21,7 +21,8 @@ class DailyHoroscope::CLI
 
    def list_signs
 		puts "\n"
-		DailyHoroscope::ZodiacSign.all.each.with_index(1) {|sign, i| puts "#{i}. #{sign.name}, #{sign.birthdates}"}
+		DailyHoroscope::ZodiacSign.all.each.with_index(1) {|sign, i|
+			puts "#{i}. #{sign.name}, #{sign.birthdates}"}
    end
 
    def menu
@@ -37,7 +38,7 @@ class DailyHoroscope::CLI
 
 		if (1..DailyHoroscope::ZodiacSign.all.length).include?(input.to_i)
 			sign = DailyHoroscope::ZodiacSign.find_by_input(input)
-			puts "\nHello #{sign.name}! #{sign.current}"
+			puts "\nHello #{sign.name}! #{sign.general}"
 		elsif input.downcase == "list"
 			list_signs
 			menu
