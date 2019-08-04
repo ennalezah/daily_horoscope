@@ -2,22 +2,11 @@ require 'pry'
 
 class DailyHoroscope::CLI
 	def call
-		get_zodiac_signs
+		DailyHoroscope::Scraper.new.import
 		puts "\n*** Welcome! Read Your Horoscope for #{Time.new.strftime("%A, %B %d")} ***"    
 		list_signs
-		menu
+		main_menu
 	end
-
-	def get_zodiac_signs
-		DailyHoroscope::Scraper.new.import
-	end
-
-	# def display_current_horoscope 
-	# 	DailyHoroscope::ZodiacSign.all.each do |sign|
-	# 		attributes = DailyHoroscope::Scraper.scrape_profile(sign.profile_url)
-	# 		sign.add_attributes(attributes)
-	# 	end
-	# end
 
    def list_signs
 		puts "\n"
@@ -25,7 +14,7 @@ class DailyHoroscope::CLI
 			puts "#{i}. #{sign.name}, #{sign.birthdates}"}
    end
 
-   def menu
+   def main_menu
 		puts "\n*** Main Menu Commands ***"
 		puts <<-DOC.gsub /^\s+/, ""
 		- Enter a number from 1-#{DailyHoroscope::ZodiacSign.all.length} to choose your zodiac sign.
@@ -38,34 +27,69 @@ class DailyHoroscope::CLI
 
 		if (1..DailyHoroscope::ZodiacSign.all.length).include?(input.to_i)
 			sign = DailyHoroscope::ZodiacSign.find_by_input(input)
-			puts "\nHello #{sign.name}! #{sign.general}"
+			puts "#{sign.general}"
+			read_more(sign)
 		elsif input.downcase == "list"
 			list_signs
-			menu
+			main_menu
 		elsif input.downcase == "exit"
 		   goodbye
 		else
-			puts "\nHmm, that's not a valid input."
-			menu
+			invalid_input
+			main_menu
 		end        
-   end
+	end
 
-   def read_more
-		puts "\nWould you like to read more? Type 'yes' to continue or 'no' to go back to the main menu."
+	def read_more(sign)
+		puts "\nWould you like to read more?\n\n"
+		puts <<-DOC.gsub /^\s+/, ""
+		- To get your love reading, type 'love'.
+		- To get your career reading, type 'career'.
+		- To get your health reading, type 'health'.
+		- To view all readings, type 'all'.
+		- To return to the main menu, type 'menu'.
+		- Type 'exit' to leave.
+		DOC
+
+		puts "\nPlease enter what you'd like to do:"
 		input = gets.strip.downcase
 
-		if input == "yes"
-			puts "more"
-			menu
-		elsif input == "no"
-			menu
-		else 
-			puts "\nHmm, I'm not sure what you want."
-			read_more
+		case input 
+		when "love"
+			puts "#{sign.love}"
+			read_more(sign)
+		when "career"
+			puts "#{sign.career}"
+			read_more(sign)
+		when "health"
+			puts "#{sign.health}"
+			read_more(sign)
+		when "all"
+			display_all_horoscopes(sign)
+			main_menu
+		when "menu"
+			main_menu
+		when "exit"
+			goodbye
+		else
+			invalid_input
+			read_more(sign)
 		end
-   end
+	end
 
+	def display_all_horoscopes(sign)
+		puts <<-DOC.gsub /^\s+/, ""
+		#{sign.love}
+		#{sign.career}
+		#{sign.health}
+		DOC
+	end
+
+	def invalid_input
+		puts "\nHmm, that's an invalid input. Please see the menu for acceptable commands."
+	end
+	
    def goodbye
 		puts "\nCome back tomorrow for your new horoscope! Byeee! (:"
-   end
+	end
 end
