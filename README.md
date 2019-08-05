@@ -1,28 +1,16 @@
 # DailyHoroscope
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/daily_horoscope`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This Ruby Gem provides a CLI to view your horoscope for the current day based on the zodic sign that is chosen. You're also given the option of viewing your Love, Career, Money, and Health horoscopes.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'daily_horoscope'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install daily_horoscope
 
 ## Usage
 
-TODO: Write usage instructions here
+Type the line of code below in your terminal and follow the on-screen prompts.
+
+$ daily_horoscope
 
 ## Development
 
@@ -32,12 +20,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/daily_horoscope. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at [github.com/ennalezah/daily_horoscope](https://github.com/ennalezah/daily_horoscope). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the DailyHoroscope project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/daily_horoscope/blob/master/CODE_OF_CONDUCT.md).

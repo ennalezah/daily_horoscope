@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Hazel Anne Villareal"]
   spec.email         = ["hae.villareal@gmail.com"]
 
-  spec.summary       = "Read Your Daily Horoscope"
-  spec.description   = "Gets your general, career, and health horoscopes for the current day."
+  spec.summary       = "Gets current horoscope readings for the day"
+  spec.description   = "Displays daily horoscope, and depending on user's choice,
+                        horoscopes for love, career, money, and health can also be viewed."
   spec.homepage      = "https://github.com/ennalezah/daily_horoscope.git"
   spec.license       = "MIT"
 

@@ -1,4 +1,4 @@
-# Responsible for creating zodiac signs from Scraper and getting sign's horoscopes
+# Responsible for creating zodiac signs from scraped doc and getting additional attributes
 
 class DailyHoroscope::ZodiacSign
    attr_accessor :name, :birthdates, :profile_url, :general, :love, :career, :money, :health
@@ -12,6 +12,12 @@ class DailyHoroscope::ZodiacSign
       self.class.all << self
    end
 
+   def initialize
+      @name = name
+      @birthdates = birthdates
+      @profile_url = profile_url
+   end
+
    def self.find_by_profile_url(profile_url)
       sign = self.all.find {|sign| sign.profile_url == profile_url}
    end
@@ -22,8 +28,8 @@ class DailyHoroscope::ZodiacSign
 
    def general
       title = profile_doc.css("div.flex-start h1").text.cyan
-      description = profile_doc.css("div.main-horoscope p").first.text.split(/\s-\s/)[1]
-      "\n\u{1F52E}  #{title} \n#{description}"
+      description = profile_doc.css("div.main-horoscope p").first.text.split(/\d\s-\s/)[1]
+      @general ||= "\n\u{1F52E}  #{title} \n#{description}"
    end
 
    def love
