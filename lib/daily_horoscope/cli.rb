@@ -2,20 +2,47 @@
 
 class DailyHoroscope::CLI
 	def call
-		DailyHoroscope::Scraper.new.import
-		# U+1F320
+		DailyHoroscope::Scraper.new.scrape_index
 		puts "\n\u{2728}  Welcome! Read Your Horoscope for #{Time.new.strftime("%A, %B %d")}\u{2728}".magenta  
 		list_signs
 		main_menu
 	end
 
-   def list_signs
+	def list_signs
 		puts "\n"
-		DailyHoroscope::ZodiacSign.all.each.with_index(1) {|sign, i|
-			puts "#{i}. #{sign.name}, #{sign.birthdates}"}
-   end
+		DailyHoroscope::ZodiacSign.all.each.with_index(1) do |sign, i|
+			case sign.name.capitalize
+			when "Aries"
+				puts "#{i}. \u{2648}  #{sign.name} --> #{sign.birthdates}"
+			when "Taurus"
+				puts "#{i}. \u{2649}  #{sign.name} --> #{sign.birthdates}"
+			when "Gemini"
+				puts "#{i}. \u{264A}  #{sign.name} --> #{sign.birthdates}"
+			when "Cancer"
+				puts "#{i}. \u{264B}  #{sign.name} --> #{sign.birthdates}"
+			when "Leo"
+				puts "#{i}. \u{264C}  #{sign.name} --> #{sign.birthdates}"
+			when "Virgo"
+				puts "#{i}. \u{264D}  #{sign.name} --> #{sign.birthdates}"
+			when "Libra"
+				puts "#{i}. \u{264E}  #{sign.name} --> #{sign.birthdates}"
+			when "Scorpio"
+				puts "#{i}. \u{264F}  #{sign.name} --> #{sign.birthdates}"
+			when "Sagittarius"
+				puts "#{i}. \u{2650}  #{sign.name} --> #{sign.birthdates}"
+			when "Capricorn"
+				puts "#{i}.\u{2651}  #{sign.name} --> #{sign.birthdates}"
+			when "Aquarius"
+				puts "#{i}.\u{2652}  #{sign.name} --> #{sign.birthdates}"
+			when "Pisces"
+				puts "#{i}.\u{2653}  #{sign.name} --> #{sign.birthdates}"
+			else
+				puts "#{i}. #{sign.name} --> #{sign.birthdates}"
+			end
+		end
+	end
 
-   def main_menu
+	def main_menu
 		puts "\nMain Menu Commands:".underline.green
 		puts <<~DOC
 		- Enter a number from 1-#{DailyHoroscope::ZodiacSign.all.length} to choose your zodiac sign.
@@ -34,7 +61,7 @@ class DailyHoroscope::CLI
 			list_signs
 			main_menu
 		elsif input.downcase == "exit"
-		   goodbye
+			goodbye
 		else
 			invalid_input
 			main_menu
@@ -83,20 +110,14 @@ class DailyHoroscope::CLI
 	end
 
 	def display_all_horoscopes(sign)
-		puts <<~DOC
-		#{sign.love}
-		#{sign.career}
-		#{sign.money}
-		#{sign.health}
-		DOC
+		puts sign.all_horoscopes
 	end
 
 	def invalid_input
-		# U+1F937 U+200D U+2640 U+FE0F
 		puts "\nHmm, I don't understand that input.\u{1F937} \nPlease see the menu for acceptable commands.".bold.red
 	end
-	
-   def goodbye
-		puts "\nCome back tomorrow for your new horoscope. See ya'! (:".magenta
+
+	def goodbye
+		puts "\n\u{1F44B}  Come back tomorrow for your new horoscope. Byeee!\u{1F44B}".magenta
 	end
 end

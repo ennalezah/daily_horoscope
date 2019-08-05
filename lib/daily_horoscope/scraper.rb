@@ -2,24 +2,19 @@
 
 require 'pry'
 
-class DailyHoroscope::Scraper 
-    def scrape_index
-        # Returns array with hash elements from home pg
-        # Hash keys are name, birthdates, profile link+
+class DailyHoroscope::Scraper
 
-        doc = Nokogiri::HTML(open("#{BASE_URL}/us/index.aspx"))
-        index = doc.css("div.grid.grid-6 a")
-        
-        index.map do |sign|
-            {
-                :name => sign.css("h3").text.strip,
-                :birthdates => sign.css("p").text.strip,
-                :profile_url => sign['href']
-            }
+    def scrape_index
+        index_doc = Nokogiri::HTML(open("#{BASE_URL}/us/index.aspx"))
+        index = index_doc.css("div.grid.grid-6 a")
+
+        index.each do |info|
+            sign = DailyHoroscope::ZodiacSign.new
+
+            sign.name = info.css("h3").text.strip
+            sign.birthdates = info.css("p").text.strip
+            sign.profile_url = info['href']            
+            sign.save            
         end
-    end       
-    
-    def import
-        scrape_index.each {|sign_attributes| DailyHoroscope::ZodiacSign.create_from_index(sign_attributes)}
-    end
+    end      
 end
