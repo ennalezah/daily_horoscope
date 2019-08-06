@@ -4,13 +4,13 @@ This Ruby Gem provides a CLI to view your horoscope for the current day based on
 
 ## Installation
 
-    $ gem install daily_horoscope
+```$ gem install daily_horoscope```
 
 ## Usage
 
 Type the line of code below in your terminal and follow the on-screen prompts.
 
-$ daily_horoscope
+```$ daily_horoscope```
 
 ## Development
 

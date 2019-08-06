@@ -28,7 +28,7 @@ class DailyHoroscope::ZodiacSign
 
    def general
       title = profile_doc.css("div.flex-start h1").text.cyan
-      description = profile_doc.css("div.main-horoscope p").first.text.split(/\d\s-\s/)[1]
+      description = profile_doc.css("div.main-horoscope p").first.text.split(/\d{2,5}\s-\s/)[1]
       @general ||= "\n\u{1F52E}  #{title} \n#{description}"
    end
 
@@ -59,11 +59,11 @@ class DailyHoroscope::ZodiacSign
    def get_horoscope(url)
       doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
       title = doc.css("div.flex-start h1").text.split[0..1].join(' ').cyan
-      description = doc.css("div.main-horoscope p").first.text.split(/\d\s-\s/)[1]
+      description = doc.css("div.main-horoscope p").first.text.split(/\d{2,5}\s-\s/)[1]
       "#{title} \n#{description}"
    end
 
-   def all_horoscopes
+   def horoscopes
       [self.general, self.love, self.career, self.money, self.health]
    end
 end

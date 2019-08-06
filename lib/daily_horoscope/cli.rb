@@ -53,7 +53,7 @@ class DailyHoroscope::CLI
 		puts "\nPlease enter a command:".magenta
 		input = gets.strip
 
-		if (1..DailyHoroscope::ZodiacSign.all.length).include?(input.to_i)
+		if (1..DailyHoroscope::ZodiacSign.all.length).include?(input.to_i) && input.match(/\A\d{1,3}\z/) 
 			sign = DailyHoroscope::ZodiacSign.find_by_input(input)
 			puts "#{sign.general}"
 			read_more(sign)
@@ -75,7 +75,7 @@ class DailyHoroscope::CLI
 		- To get your career reading, type 'career'.
 		- To get your money reading, type 'money'.
 		- To get your health reading, type 'health'.
-		- To view all readings, type 'all'.
+		- To view all zodiac sign's readings, type 'all'.
 		- To return to the main menu, type 'menu'.
 		- Type 'exit' to leave.
 		DOC
@@ -83,7 +83,7 @@ class DailyHoroscope::CLI
 		puts "\nPlease enter what you'd like to do:".magenta
 		input = gets.strip.downcase
 
-		case input 
+		case input
 		when "love"
 			puts "#{sign.love}"
 			read_more(sign)
@@ -110,7 +110,7 @@ class DailyHoroscope::CLI
 	end
 
 	def display_all_horoscopes(sign)
-		puts sign.all_horoscopes
+		puts sign.horoscopes
 	end
 
 	def invalid_input
