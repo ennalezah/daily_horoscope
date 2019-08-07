@@ -1,7 +1,7 @@
-# Responsible for creating zodiac signs from scraped doc and getting additional attributes
+# Creates zodiac sign and sets its horoscopes
 
 class DailyHoroscope::ZodiacSign
-   attr_accessor :name, :birthdates, :profile_url, :general, :love, :career, :money, :health
+   attr_accessor :name, :birthdates, :profile_url, :love_url, :career_url, :money_url, :health_url, :general, :love, :career, :money, :health
    @@all = []
 
    def self.all 
@@ -26,36 +26,6 @@ class DailyHoroscope::ZodiacSign
       self.all[input.to_i - 1] 
    end
 
-   def general
-      title = profile_doc.css("div.flex-start h1").text.cyan
-      description = profile_doc.css("div.main-horoscope p").first.text.split(/\d{2,5}\s-\s/)[1]
-      @general ||= "\n\u{1F52E}  #{title} \n#{description}"
-   end
-
-   def love
-      url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[1]['href']
-      @love ||= "\n\u{1F496}  #{get_horoscope(url)}"
-   end
-
-   def career
-      url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[2]['href']
-      @career ||= "\n\u{1F4BC}  #{get_horoscope(url)}"
-   end
-
-   def money 
-      url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[3]['href']
-      @money ||=  "\n\u{1F4B5}  #{get_horoscope(url)}"
-   end
-
-   def health
-      url = profile_doc.css("div.main-horoscope div.more-horoscopes a")[4]['href']
-      @health ||= "\n\u{1F33F}  #{get_horoscope(url)}" 
-   end
-
-   def profile_doc
-      Nokogiri::HTML(open("#{BASE_URL}#{self.profile_url}"))
-   end
-
    def get_horoscope(url)
       doc = Nokogiri::HTML(open("#{BASE_URL}#{url}"))
       title = doc.css("div.flex-start h1").text.split[0..1].join(' ').cyan
@@ -64,6 +34,26 @@ class DailyHoroscope::ZodiacSign
    end
 
    def horoscopes
-      [self.general, self.love, self.career, self.money, self.health]
+      [self.general(profile_url), self.love(love_url), self.career(career_url), self.money(money_url), self.health(health_url)]
+   end
+
+   def general(profile_url)
+      @general ||= "\n\u{1F52E}  #{get_horoscope(self.profile_url)}"
+   end
+
+   def love(love_url)
+      @love ||= "\n\u{1F496}  #{get_horoscope(self.love_url)}"
+   end
+
+   def career(career_url)
+      @career ||= "\n\u{1F4BC}  #{get_horoscope(self.career_url)}"
+   end
+
+   def money(money_url)
+      @money ||=  "\n\u{1F4B5}  #{get_horoscope(self.money_url)}"
+   end
+
+   def health(health_url)
+      @health ||= "\n\u{1F33F}  #{get_horoscope(self.health_url)}" 
    end
 end

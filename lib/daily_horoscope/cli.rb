@@ -2,10 +2,14 @@
 
 class DailyHoroscope::CLI
 	def call
-		DailyHoroscope::Scraper.new.scrape_index
+		DailyHoroscope::Scraper.scrape_index
 		puts "\n\u{2728}  Welcome! Read Your Horoscope for #{Time.new.strftime("%A, %B %d")}\u{2728}".magenta  
 		list_signs
 		main_menu
+	end
+
+	def display_name_birthdates(sign)
+		"#{sign.name} --> #{sign.birthdates}"
 	end
 
 	def list_signs
@@ -13,31 +17,31 @@ class DailyHoroscope::CLI
 		DailyHoroscope::ZodiacSign.all.each.with_index(1) do |sign, i|
 			case sign.name.capitalize
 			when "Aries"
-				puts "#{i}. \u{2648}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{2648}  #{display_name_birthdates(sign)}"
 			when "Taurus"
-				puts "#{i}. \u{2649}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{2649}  #{display_name_birthdates(sign)}"
 			when "Gemini"
-				puts "#{i}. \u{264A}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{264A}  #{display_name_birthdates(sign)}"
 			when "Cancer"
-				puts "#{i}. \u{264B}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{264B}  #{display_name_birthdates(sign)}"
 			when "Leo"
-				puts "#{i}. \u{264C}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{264C}  #{display_name_birthdates(sign)}"
 			when "Virgo"
-				puts "#{i}. \u{264D}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{264D}  #{display_name_birthdates(sign)}"
 			when "Libra"
-				puts "#{i}. \u{264E}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{264E}  #{display_name_birthdates(sign)}"
 			when "Scorpio"
-				puts "#{i}. \u{264F}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{264F}  #{display_name_birthdates(sign)}"
 			when "Sagittarius"
-				puts "#{i}. \u{2650}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. \u{2650}  #{display_name_birthdates(sign)}"
 			when "Capricorn"
-				puts "#{i}.\u{2651}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}.\u{2651}  #{display_name_birthdates(sign)}"
 			when "Aquarius"
-				puts "#{i}.\u{2652}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}.\u{2652}  #{display_name_birthdates(sign)}"
 			when "Pisces"
-				puts "#{i}.\u{2653}  #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}.\u{2653}  #{display_name_birthdates(sign)}"
 			else
-				puts "#{i}. #{sign.name} --> #{sign.birthdates}"
+				puts "#{i}. #{display_name_birthdates(sign)}"
 			end
 		end
 	end
@@ -55,7 +59,8 @@ class DailyHoroscope::CLI
 
 		if (1..DailyHoroscope::ZodiacSign.all.length).include?(input.to_i) && input.match(/\A\d{1,3}\z/) 
 			sign = DailyHoroscope::ZodiacSign.find_by_input(input)
-			puts "#{sign.general}"
+			DailyHoroscope::Scraper.scrape_profile(sign.profile_url) 
+			puts "#{sign.general(sign.profile_url)}"
 			read_more(sign)
 		elsif input.downcase == "list"
 			list_signs
@@ -85,16 +90,16 @@ class DailyHoroscope::CLI
 
 		case input
 		when "love"
-			puts "#{sign.love}"
+			puts "#{sign.love(sign.love_url)}"
 			read_more(sign)
 		when "career"
-			puts "#{sign.career}"
+			puts "#{sign.career(sign.career_url)}"
 			read_more(sign)
 		when "money"
-			puts "#{sign.money}"
+			puts "#{sign.money(sign.money_url)}"
 			read_more(sign)
 		when "health"
-			puts "#{sign.health}"
+			puts "#{sign.health(sign.health_url)}"
 			read_more(sign)
 		when "all"
 			display_all_horoscopes(sign)
