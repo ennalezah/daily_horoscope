@@ -119,7 +119,7 @@ class DailyHoroscope::CLI
 	end
 
 	def invalid_input
-		puts "\nHmm, I don't understand that input.\u{1F937} \nPlease see the menu for acceptable commands.".bold.red
+		puts "\nHmm, I don't understand that input. See menu for acceptable commands.".bold.red
 	end
 
 	def goodbye

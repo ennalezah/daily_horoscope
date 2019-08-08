@@ -1,7 +1,8 @@
 # Creates zodiac sign and sets its horoscopes
 
 class DailyHoroscope::ZodiacSign
-   attr_accessor :name, :birthdates, :profile_url, :love_url, :career_url, :money_url, :health_url, :general, :love, :career, :money, :health
+   attr_accessor :name, :birthdates, :profile_url, :love_url, :career_url, :money_url, :health_url, 
+                 :general, :love, :career, :money, :health
    @@all = []
 
    def self.all 
