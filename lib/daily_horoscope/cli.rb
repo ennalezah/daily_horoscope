@@ -101,8 +101,8 @@ class DailyHoroscope::CLI
 		when "health"
 			puts "#{sign.health(sign.health_url)}"
 			read_more(sign)
-		when "all"
-			display_all_horoscopes(sign)
+      when "all"
+         DailyHoroscope::ZodiacSign.display_all_horoscopes(sign)
 			main_menu
 		when "menu"
 			main_menu
@@ -112,10 +112,6 @@ class DailyHoroscope::CLI
 			invalid_input
 			read_more(sign)
 		end
-	end
-
-	def display_all_horoscopes(sign)
-		puts sign.horoscopes
 	end
 
 	def invalid_input

@@ -10,7 +10,7 @@ class DailyHoroscope::ZodiacSign
    end
 
    def save
-      self.class.all << self
+      @@all << self
    end
 
    def initialize
@@ -37,6 +37,10 @@ class DailyHoroscope::ZodiacSign
    def horoscopes
       [self.general(profile_url), self.love(love_url), self.career(career_url), self.money(money_url), self.health(health_url)]
    end
+
+   def self.display_all_horoscopes(sign)
+		puts sign.horoscopes
+	end
 
    def general(profile_url)
       @general ||= "\n\u{1F52E}  #{get_horoscope(self.profile_url)}"
