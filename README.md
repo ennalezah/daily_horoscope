@@ -1,6 +1,6 @@
 # DailyHoroscope
 
-This Ruby Gem provides a CLI to view your horoscope for the current day based on the zodic sign that is chosen. You're also given the option of viewing your Love, Career, Money, and Health horoscopes.
+This Ruby Gem provides a CLI to view your horoscope for the current day based on the zodiac sign that is chosen. You're also given the option of viewing your Love, Career, Money, and Health horoscopes.
 
 ## Installation
 
